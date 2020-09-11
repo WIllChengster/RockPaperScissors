@@ -21,7 +21,7 @@ function App() {
         return update_comp_rps('scissors')
     }
 
-  }, [] )
+  }, [winCount] )
 
   const handleClick = (e) => {
     update_rps(e.target.attributes.getNamedItem('rps').value);
@@ -33,11 +33,13 @@ function App() {
     if( result === 'win' ){
       updateWinCount(count => count + 1)
     }
+    update_rps(null);
+    console.log(result)
   }, [rps])
 
   return (
     <div className="container" >
-      <h1 class="wins">Wins: {winCount}</h1>
+      <h1 className="wins">Wins: {winCount}</h1>
       {/* <div className="computer-container buttons-container">
         <div>
           <div className="computer-button"></div>
