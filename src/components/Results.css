@@ -1,0 +1,40 @@
+.results-container{
+    position: absolute;
+    background-color: #B7E3CC;
+    height: 500px;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow:hidden;
+}
+
+.rps{
+    margin: 5rem;
+    font-size: 3rem;
+}
+
+.player-rps{
+    display: flex;
+    animation-name: player-rps;
+    animation-duration: 1s;
+}
+
+.computer-rps{
+    display: flex;
+    animation-name: computer-rps;
+    animation-duration: 1.5s;
+}
+
+@keyframes player-rps {
+    0% {transform: translateX(-100vw);}
+    75% {transform: translateX(-100vw);}
+    100% {transform: translateX();}
+}
+
+@keyframes computer-rps {
+    0% {transform: translateX(100vw);}
+    75% {transform: translateX(100vw);}
+    100% {transform: translateX();}
+}
