@@ -37,8 +37,8 @@ function App() {
 
   return (
     <div className="container" >
-      <p style={{margin: 0, color: 'white'}} >Wins: {winCount}</p>
-      <div className="computer-container buttons-container">
+      <h1 class="wins">Wins: {winCount}</h1>
+      {/* <div className="computer-container buttons-container">
         <div>
           <div className="computer-button"></div>
         </div>
@@ -46,8 +46,8 @@ function App() {
           <div className="computer-button"></div>
           <div className="computer-button"></div>
         </div>
-      </div>
-      <div className='player-container buttons-container' >
+      </div> */}
+      <div className='buttons-container' >
         <div>
           <RPSButton onClick={handleClick} rps='rock' />
         </div>
