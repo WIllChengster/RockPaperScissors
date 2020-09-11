@@ -1,24 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import RPSButton from './components/RPS_button'
+import winCheck from './helpers/winCheck';
+import './app.css';
 
 function App() {
+  
+  const [rps, update_rps] = useState(null)
+  const [comp_rps, update_comp_rps] = useState(null)
+  const [winCount, updateWinCount] = useState(0)
+  useEffect( () => {
+    //computer chooses random rps on render
+    const random_num = Math.floor(Math.random() * 3)
+    
+    switch(random_num){
+      case 0: 
+        return update_comp_rps('rock');
+      case 1:
+        return update_comp_rps('paper');
+      case 2:
+        return update_comp_rps('scissors')
+    }
+
+  }, [] )
+
+  const handleClick = (e) => {
+    update_rps(e.target.attributes.getNamedItem('rps').value);
+  } 
+
+  useEffect( () => {
+    //when rps changes, will see if player wins
+    const result = winCheck(rps, comp_rps);
+    if( result === 'win' ){
+      updateWinCount(count => count + 1)
+    }
+  }, [rps])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container" >
+      <p style={{margin: 0, color: 'white'}} >Wins: {winCount}</p>
+      <div className="computer-container buttons-container">
+        <div>
+          <div className="computer-button"></div>
+        </div>
+        <div>
+          <div className="computer-button"></div>
+          <div className="computer-button"></div>
+        </div>
+      </div>
+      <div className='player-container buttons-container' >
+        <div>
+          <RPSButton onClick={handleClick} rps='rock' />
+        </div>
+        <div>
+          <RPSButton onClick={handleClick} rps='paper'/>
+          <RPSButton onClick={handleClick} rps='scissors'/>
+        </div>
+
+      </div>
+
     </div>
   );
 }
