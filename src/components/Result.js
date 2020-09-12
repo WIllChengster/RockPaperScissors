@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import winCheck from '../helpers/winCheck';
 import './Results.css';
 
 const Results = (props) =>{
@@ -9,7 +10,7 @@ const Results = (props) =>{
         return console.log(props)
     })
     
-    const emoji = (rps) => {
+    const RPSemoji = (rps) => {
         switch(rps){
             case 'rock':
                 return '👊';
@@ -22,14 +23,31 @@ const Results = (props) =>{
         }
     }
 
+    const winEmoji = () => {
+        const result = winCheck(rps, comp_rps);
+        switch(result){
+            case 'win':
+                return '✔ You Win!';
+            case 'lose':
+                return '❌ You Lose!';
+            case 'tie':
+                return '🤷 Its a tie!';
+            default:
+                return '';
+        }
+    }
+
     return (
         <div className="results-container" >
-            <div className="rps computer-rps" >
-                {emoji(props.comp_rps)}
 
+            <div className="rps computer-rps" >
+                {RPSemoji(props.comp_rps)}
+            </div>
+            <div className="result-emoji">
+                {winEmoji()}
             </div>
             <div className="rps player-rps">
-                {emoji(props.rps)}
+                {RPSemoji(props.rps)}
 
             </div>
         </div>

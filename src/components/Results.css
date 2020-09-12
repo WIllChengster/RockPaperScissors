@@ -15,6 +15,13 @@
     font-size: 3rem;
 }
 
+.result-emoji {
+    font-size: 5rem;
+    text-shadow: 1px 1px 10px black, 1px 1px 10px black;
+    animation-name: result-emoji;
+    animation-duration: 2.2s;
+}
+
 .player-rps{
     display: flex;
     animation-name: player-rps;
@@ -37,4 +44,13 @@
     0% {transform: translateX(100vw);}
     75% {transform: translateX(100vw);}
     100% {transform: translateX();}
+}
+
+@keyframes result-emoji {
+    0% {transform: translateY(-100vh);}
+    75% {transform: translateY(-100vh);}
+    80% {transform: translateY(0vh);}
+    90% {transform: translateY(-6vh);}
+
+    100% {transform: translateY();}
 }

@@ -43,18 +43,17 @@ function App() {
       isInitialMount.current = false;
     } else {
       const result = winCheck(rps, comp_rps);
-      console.log(result);
       if( result === 'win' ){
         updateWinCount(count => count + 1)
       }
     }
 
-  }, [rps])
+  }, [rps, comp_rps])
 
   useEffect( () => {
     const timer = setTimeout(() => {
       updateShowResults(false)
-    }, 2500)
+    }, 2900)
     
     return () => clearTimeout(timer)
   }, [showResults])
@@ -65,6 +64,7 @@ function App() {
   return (
     <div className="container" >
       {ResultsComponent}
+      {/* <Results comp_rps={comp_rps} rps={rps}/> */}
       <h1 className="wins">Wins: {winCount}</h1>
       <div className='buttons-container' >
         <div>
