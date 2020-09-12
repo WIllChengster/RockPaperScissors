@@ -12,8 +12,10 @@ const RPSButton = (props) => {
                 return updateEmoji('✌');
             case 'paper':
                 return updateEmoji( '✋');
+            default:
+                return;
         }
-    }, [rps])
+    }, [])
 
 
 

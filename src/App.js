@@ -1,53 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import RPSButton from './components/RPS_button'
 import winCheck from './helpers/winCheck';
+import Results from './components/Result';
 import './app.css';
 
 function App() {
-  
-  const [rps, update_rps] = useState(null)
-  const [comp_rps, update_comp_rps] = useState(null)
-  const [winCount, updateWinCount] = useState(0)
+  const isInitialMount = useRef(true);
+  const [rps, update_rps] = useState(null);
+  const [comp_rps, update_comp_rps] = useState(null);
+  const [winCount, updateWinCount] = useState(0);
+  const [showResults, updateShowResults] = useState(false);
+
   useEffect( () => {
-    //computer chooses random rps on render
-    const random_num = Math.floor(Math.random() * 3)
-    
-    switch(random_num){
-      case 0: 
-        return update_comp_rps('rock');
-      case 1:
-        return update_comp_rps('paper');
-      case 2:
-        return update_comp_rps('scissors')
+    //computer chooses RPS during 1 of 2 events:
+    //1. component first mounts
+    //2. when showResults updates AND is false.
+    //      need to make sure showResults is false so that state doesn't change when we show the user what the computer chose.
+    if(!showResults){
+      const random_num = Math.floor(Math.random() * 3)
+      switch(random_num){
+        case 0: 
+          return update_comp_rps('rock');
+        case 1:
+          return update_comp_rps('paper');
+        case 2:
+          return update_comp_rps('scissors');
+        default: return
+      }
     }
 
-  }, [] )
+  }, [showResults] )
 
   const handleClick = (e) => {
-    update_rps(e.target.attributes.getNamedItem('rps').value);
+    const input = e.target.attributes.getNamedItem('rps').value
+    update_rps(rps => input);
+    updateShowResults(true)
   } 
 
   useEffect( () => {
     //when rps changes, will see if player wins
-    const result = winCheck(rps, comp_rps);
-    if( result === 'win' ){
-      updateWinCount(count => count + 1)
+    if(isInitialMount.current){
+      isInitialMount.current = false;
+    } else {
+      const result = winCheck(rps, comp_rps);
+      if( result === 'win' ){
+        updateWinCount(count => count + 1)
+      }
     }
-  }, [rps])
+
+  }, [rps, comp_rps])
+
+  useEffect( () => {
+    const timer = setTimeout(() => {
+      updateShowResults(false)
+    }, 2900)
+    
+    return () => clearTimeout(timer)
+  }, [showResults])
+
+
+  const ResultsComponent = showResults ? <Results comp_rps={comp_rps} rps={rps}/> : null;
 
   return (
     <div className="container" >
-      <p style={{margin: 0, color: 'white'}} >Wins: {winCount}</p>
-      <div className="computer-container buttons-container">
-        <div>
-          <div className="computer-button"></div>
-        </div>
-        <div>
-          <div className="computer-button"></div>
-          <div className="computer-button"></div>
-        </div>
-      </div>
-      <div className='player-container buttons-container' >
+      {ResultsComponent}
+      {/* <Results comp_rps={comp_rps} rps={rps}/> */}
+      <h1 className="wins">Wins: {winCount}</h1>
+      <div className='buttons-container' >
         <div>
           <RPSButton onClick={handleClick} rps='rock' />
         </div>
