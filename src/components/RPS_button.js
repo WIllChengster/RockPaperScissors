@@ -15,7 +15,7 @@ const RPSButton = (props) => {
             default:
                 return;
         }
-    }, [rps])
+    }, [])
 
 
 

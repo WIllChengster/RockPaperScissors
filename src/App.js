@@ -10,24 +10,31 @@ function App() {
   const [comp_rps, update_comp_rps] = useState(null);
   const [winCount, updateWinCount] = useState(0);
   const [showResults, updateShowResults] = useState(false);
+
   useEffect( () => {
-    //computer chooses random rps on render
-    const random_num = Math.floor(Math.random() * 3)
-    
-    switch(random_num){
-      case 0: 
-        return update_comp_rps('rock');
-      case 1:
-        return update_comp_rps('paper');
-      case 2:
-        return update_comp_rps('scissors');
-      default: return
+    //computer chooses RPS during 1 of 2 events:
+    //1. component first mounts
+    //2. when showResults updates AND is false.
+    //      need to make sure showResults is false so that state doesn't change when we show the user what the computer chose.
+    if(!showResults){
+      const random_num = Math.floor(Math.random() * 3)
+      switch(random_num){
+        case 0: 
+          return update_comp_rps('rock');
+        case 1:
+          return update_comp_rps('paper');
+        case 2:
+          return update_comp_rps('scissors');
+        default: return
+      }
     }
 
-  }, [rps] )
+  }, [showResults] )
 
   const handleClick = (e) => {
-    update_rps(e.target.attributes.getNamedItem('rps').value);
+    const input = e.target.attributes.getNamedItem('rps').value
+    update_rps(rps => input);
+    updateShowResults(true)
   } 
 
   useEffect( () => {
@@ -36,12 +43,10 @@ function App() {
       isInitialMount.current = false;
     } else {
       const result = winCheck(rps, comp_rps);
-      updateShowResults(true)
-  
+      console.log(result);
       if( result === 'win' ){
         updateWinCount(count => count + 1)
       }
-      update_rps(null);
     }
 
   }, [rps])
@@ -49,12 +54,13 @@ function App() {
   useEffect( () => {
     const timer = setTimeout(() => {
       updateShowResults(false)
-    }, 2000)
+    }, 2500)
+    
     return () => clearTimeout(timer)
   }, [showResults])
 
 
-  const ResultsComponent = showResults ? <Results rps={rps}/> : null;
+  const ResultsComponent = showResults ? <Results comp_rps={comp_rps} rps={rps}/> : null;
 
   return (
     <div className="container" >
