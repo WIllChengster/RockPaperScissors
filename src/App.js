@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import RPSButton from './components/RPS_button'
 import winCheck from './helpers/winCheck';
 import Results from './components/Result';
-import './app.css';
+import './App.css';
 
 function App() {
   const isInitialMount = useRef(true);
