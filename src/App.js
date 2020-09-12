@@ -20,20 +20,25 @@ function App() {
       const random_num = Math.floor(Math.random() * 3)
       switch(random_num){
         case 0: 
-          return update_comp_rps('rock');
+          update_comp_rps('rock');
+          break;
         case 1:
-          return update_comp_rps('paper');
+          update_comp_rps('paper');
+          break;
         case 2:
-          return update_comp_rps('scissors');
-        default: return
+          update_comp_rps('scissors');
+          break;
+        default: break;
       }
+      update_rps(null);
+
     }
 
   }, [showResults] )
 
   const handleClick = (e) => {
     const input = e.target.attributes.getNamedItem('rps').value
-    update_rps(rps => input);
+    update_rps(input);
     updateShowResults(true)
   } 
 
@@ -43,6 +48,7 @@ function App() {
       isInitialMount.current = false;
     } else {
       const result = winCheck(rps, comp_rps);
+      console.log(rps, comp_rps)
       if( result === 'win' ){
         updateWinCount(count => count + 1)
       }

@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import winCheck from '../helpers/winCheck';
 import './Results.css';
 
 const Results = (props) =>{
 
     const { comp_rps, rps } = props
-    
-    useEffect( () => {
-        return console.log(props)
-    })
+
     
     const RPSemoji = (rps) => {
         switch(rps){
